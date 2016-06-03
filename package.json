@@ -1,0 +1,19 @@
+{
+  "name": "ansible-fhc",
+  "version": "0.0.5",
+  "description": "Ansible FHC Module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha -w"
+  },
+  "author": "Philip Hayes",
+  "license": "MIT",
+  "dependencies": {
+    "fh-fhc": "^1.1.5"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.1",
+    "should": ">= 0.0.1",
+    "proxyquire": "^1.7.9"
+  }
+}
