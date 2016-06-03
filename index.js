@@ -34,11 +34,17 @@ exports.process = function(action, args, finish){
   else if (action == 'createTeam'){
     team.create(args, finish);
   }
+  else if (action == 'readTeam'){
+    team.read(args, finish);
+  }
   else if (action == 'createProject'){
     project.create(args, finish);
   }
   else if (action == 'createUser'){
     user.create(args, finish);
+  }
+  else if (action == 'addUserToTeam'){
+  	team.addUser(args, finish);
   }
   else {
   	finish({err: 'unknown action'}, false);
