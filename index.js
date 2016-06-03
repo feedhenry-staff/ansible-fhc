@@ -32,12 +32,15 @@ exports.process = function(action, args, finish){
     environment.create(args, finish);
   }
   else if (action == 'createTeam'){
-    ansiblefhc.team.create(args, finish);
+    team.create(args, finish);
   }
   else if (action == 'createProject'){
-    ansiblefhc.project.create(args, finish);
+    project.create(args, finish);
   }
   else if (action == 'createUser'){
     user.create(args, finish);
+  }
+  else {
+  	finish({err: 'unknown action'}, false);
   }
 }
