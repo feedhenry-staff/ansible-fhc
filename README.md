@@ -43,17 +43,22 @@ ansiblefhc.init.getArgs(function(err, args){
   }
 });
 
-function finish(output, changed ){
-  if (!changed){
-    changed = false;
+function finish(err, response ){
+  if (err){
+    console.log({err:err})
+  } else {
+    if (!response.changed){
+      changed = false;
+    }
+    try {
+      var stringOutput = JSON.stringify(response)
+      console.log(stringOutput);
+    }
+    catch(err){
+      console.log({err: err});
+    }
   }
-  try {
-    var stringOutput = JSON.stringify({changed:changed, output})
-    console.log(stringOutput);
-  }
-  catch(err){
-    console.log({err: err});
-  }
+
   
 }
 
