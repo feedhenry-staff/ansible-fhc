@@ -90,7 +90,7 @@ describe('fh Environment calls', function () {
 
   	var environment = proxyquire('../lib/environment.js', {'fh-fhc': fhc});
   	environment.create(args, function(err, response){
-		console.log(response)
+		//console.log(response)
 		response.changed.should.equal(false);
 		done();
   	});
