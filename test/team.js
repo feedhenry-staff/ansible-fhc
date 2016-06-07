@@ -66,10 +66,10 @@ describe('fh team calls', function () {
     }
 
   	var team = proxyquire('../lib/team.js', {'fh-fhc': fhc});
-  	team.create(args, function(response, changed){
+  	team.create(args, function(err, response){
   		//console.log(response);
 		response.name.should.equal(args.mbaasName+'developer');
-		changed.should.equal(true);
+		response.changed.should.equal(true);
 		done();
   	});
   });
@@ -79,9 +79,9 @@ describe('fh team calls', function () {
     }
 
   	var team = proxyquire('../lib/team.js', {'fh-fhc': fhc});
-  	team.create(args, function(response, changed){
+  	team.create(args, function(err, response){
 		
-		changed.should.equal(false);
+		response.changed.should.equal(false);
 		done();
   	});
   });
@@ -90,9 +90,9 @@ describe('fh team calls', function () {
   	var args = {}
 
   	var team = proxyquire('../lib/team.js', {'fh-fhc': fhc});
-  	team.create(args, function(response, changed){
+  	team.create(args, function(err, response){
 		
-		changed.should.equal(false);
+		err.should.equal("Missing argument");
 		done();
   	});
   });

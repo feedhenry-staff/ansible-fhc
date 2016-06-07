@@ -31,17 +31,17 @@ var fhc = {
 describe('fh login calls', function () {
   it('should perform valid login to fh domain', function (done) {
   	var login = proxyquire('../lib/login.js', {'fh-fhc': fhc});
-  	login.doLogin('testUser', 'testPass', function(response, changed){
+  	login.doLogin('testUser', 'testPass', function(err, response){
 		response.result.should.equal('ok');
-		changed.should.equal(true);
+		response.changed.should.equal(true);
 		done();
   	});
   });
   it('should not perform valid login to fh domain', function (done) {
   	var login = proxyquire('../lib/login.js', {'fh-fhc': fhc});
-  	login.doLogin('badUser', 'badPass', function(response, changed){	
-		response.err.should.equal('login failed: not-valid');
-		changed.should.equal(false);
+  	login.doLogin('badUser', 'badPass', function(err, response){	
+		err.should.equal('login failed: not-valid');
+		
 		done();
   		
   	});

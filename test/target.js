@@ -9,6 +9,7 @@ var fhc = {
 		} else if (target) {
 			response = target;
 		}
+		//console.log(response)
 		cb(null, response);
 	}
 }
@@ -16,17 +17,17 @@ var fhc = {
 describe('fh target calls', function () {
   it('should not change target ', function (done) {
   	var target = proxyquire('../lib/target.js', {'fh-fhc': fhc});
-  	target.set('https://target.xxxx.com', function(response, changed){
+  	target.set('https://target.xxxx.com', function(err, response){
 		response.target.should.equal('https://target.xxxx.com');
-		changed.should.equal(false);
+		response.changed.should.equal(false);
 		done();
   	});
   });
   it('should change target ', function (done) {
     var target = proxyquire('../lib/target.js', {'fh-fhc': fhc});
-    target.set('https://newtarget.xxxx.com', function(response, changed){
+    target.set('https://newtarget.xxxx.com', function(err, response){
     response.target.should.equal('https://newtarget.xxxx.com');
-    changed.should.equal(true);
+    response.changed.should.equal(true);
     done();
     });
   });

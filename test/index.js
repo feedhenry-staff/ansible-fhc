@@ -1,7 +1,7 @@
 var proxyquire = require('proxyquire');
 var environment = {
 	create: function(args, cb){
-		cb({ __v: 0,
+		cb(null,  { __v: 0,
 		  created: '2016-06-01T17:56:35.732Z',
 		  modified: '2016-06-01T17:56:35.732Z',
 		  target: 'projectName',
@@ -11,20 +11,21 @@ var environment = {
 		  label: 'projectName',
 		  id: 'projectName',
 		  _id: '574f21d3b04bb86658e45ec1',
-		  enabled: true 
-		}, false)
+		  enabled: true ,
+		  changed: false
+		})
 	}
 }
 
 var target = {
 	set: function(target, cb){
-		cb({target: target}, false)
+		cb(null, {target: target, changed: false})
 	}
 }
 
 var team = {
 	create: function(args, cb){
-		cb({ name: 'projectNamedeveloper',
+		cb(null,{ name: 'projectNamedeveloper',
 		  code: 'projectNamedeveloper',
 		  desc: 'projectNamedeveloper',
 		  created: '1464806205725',
@@ -44,14 +45,15 @@ var team = {
 		  perms:
 		   { 'cluster/reseller/customer/domain/project': 'write',
 		     'cluster/reseller/customer/domain/service': 'write' },
-		  defaultTeam: false 
-		}, false);
+		  defaultTeam: false ,
+		  changed: false
+		});
 	}
 }
 
 var login = {
 	set: function(username, password, cb){
-		cb({ 
+		cb(null, { 
 			csrf: 'b1a9dc5c430f3597f43bb4050a70632c',
   			domain: 'test',
   			login: 'rz7zhdvy44fwvz4mbbx3hm3c',
@@ -63,8 +65,9 @@ var login = {
   			result: 'ok',
   			sub: '3ttcniemc36vavcfagdfcdxe',
   			timestamp: 1464784789898,
-  			user: 'ewtbmfr74wiwfdahpr3sa23i'
-		}, true)
+  			user: 'ewtbmfr74wiwfdahpr3sa23i',
+  			changed: true
+		})
 	}
 }
 
@@ -111,9 +114,9 @@ describe('index calls', function () {
   	});
   	var args = [];
   	args['target'] = 'http://testurl.com';
-  	index.process('target', args, function(response, changed){
+  	index.process('target', args, function(err, response){
 		response.target.should.equal(args['target']);
-		changed.should.equal(false);
+		response.changed.should.equal(false);
 		done();
   	});
   });

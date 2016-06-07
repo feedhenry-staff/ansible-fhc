@@ -24,6 +24,7 @@ var fhc = {
 				var response = null,
 				err = null;
 				if (arguments.id == 'test-duplicate-test') {
+
 				  response = { 
 				  	  created: '2016-06-01T17:56:35.732Z',
 					  modified: '2016-06-01T17:56:35.732Z',
@@ -51,7 +52,7 @@ var fhc = {
 					  domain: 'testing',
 					  owner: '3ttcniemc36vavcfagdfcdxe',
 					  label: 'test-duplicate-test',
-					  id: 'test-duplicate',
+					  id: 'test-duplicate-test',
 					  _id: '574f21d3b04bb86658e45ec1',
 					  __v: 0,
 					  enabled: true 
@@ -74,10 +75,10 @@ describe('fh Environment calls', function () {
     }
 
   	var environment = proxyquire('../lib/environment.js', {'fh-fhc': fhc});
-  	environment.create(args, function(response, changed){
-  		//console.log(response);
+  	environment.create(args, function(err, response){
+  		
 		response.id.should.equal(args.mbaasName);
-		changed.should.equal(true);
+		response.changed.should.equal(true);
 		done();
   	});
   });
@@ -88,9 +89,9 @@ describe('fh Environment calls', function () {
     }
 
   	var environment = proxyquire('../lib/environment.js', {'fh-fhc': fhc});
-  	environment.create(args, function(response, changed){
-		
-		changed.should.equal(false);
+  	environment.create(args, function(err, response){
+		console.log(response)
+		response.changed.should.equal(false);
 		done();
   	});
   });
@@ -99,9 +100,9 @@ describe('fh Environment calls', function () {
   	var args = {}
 
   	var environment = proxyquire('../lib/environment.js', {'fh-fhc': fhc});
-  	environment.create(args, function(response, changed){
-		
-		changed.should.equal(false);
+  	environment.create(args, function(err, response){
+
+		err.should.equal("Missing argument");
 		done();
   	});
   });

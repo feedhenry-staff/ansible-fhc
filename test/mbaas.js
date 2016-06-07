@@ -33,7 +33,7 @@ var fhc = {
 					  "username": "test",
 					  "routerDNSUrl": "*.apps.x.xxxx.net",
 					  "servicekey": "a7eb9e1339a313ad9950494f0f70732a8fafddb1cd99e2bb0bd6b62977249063",
-					  "id": "test-duplicate",
+					  "id": "test-duplicate-test",
 					  "label": "projectName",
 					  "_id": "574def78f556ac964339c70a",
 					  "editable": true,
@@ -62,9 +62,9 @@ describe('fh MBaaS calls', function () {
     }
 
   	var mbaas = proxyquire('../lib/mbaas.js', {'fh-fhc': fhc});
-  	mbaas.create(args, function(response, changed){
+  	mbaas.create(args, function(err, response){
 		response.username.should.equal(args.openshiftUsername);
-		changed.should.equal(true);
+		response.changed.should.equal(true);
 		done();
   	});
   });
@@ -80,9 +80,9 @@ describe('fh MBaaS calls', function () {
     }
 
   	var mbaas = proxyquire('../lib/mbaas.js', {'fh-fhc': fhc});
-  	mbaas.create(args, function(response, changed){
+  	mbaas.create(args, function(err, response){
 		
-		changed.should.equal(false);
+		response.changed.should.equal(false);
 		done();
   	});
   });
@@ -91,9 +91,9 @@ describe('fh MBaaS calls', function () {
   	var args = {}
 
   	var mbaas = proxyquire('../lib/mbaas.js', {'fh-fhc': fhc});
-  	mbaas.create(args, function(response, changed){
+  	mbaas.create(args, function(err, response){
 		
-		changed.should.equal(false);
+		err.should.equal("Missing argument")
 		done();
   	});
   });
