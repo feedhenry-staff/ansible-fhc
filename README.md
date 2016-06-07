@@ -48,7 +48,7 @@ function finish(err, response ){
     console.log({err:err})
   } else {
     if (!response.changed){
-      changed = false;
+      response.changed = false;
     }
     try {
       var stringOutput = JSON.stringify(response)
