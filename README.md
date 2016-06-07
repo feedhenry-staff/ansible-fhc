@@ -3,8 +3,6 @@ Node.js Ansible module to enable calls the the fh-fhc npm module.
 When Ansible calls this script it is first exported to a temp script.  The script is then called from a temp directory created by Ansible.
 For this reason, we must install this module in $HOME/.ansible/node_modules
 
-
-
 Module is limited to supporting a subset of FHC commands currently
 * target
 * login
@@ -13,6 +11,19 @@ Module is limited to supporting a subset of FHC commands currently
 * admin.teams.create
 * project create
 * admin-users create
+
+When calls are made to FHC e.g. to create a user, a check is performed to determine if this is a change or not.  In the case of user creation the module first checks to see if the user exists.  If the user exists the following is returned:
+{"changed": false, "guid": "k4jkkehihwozzd4ravd7uj6e"}
+
+If the user does not exist the following is returned:
+
+{"changed": true, "guid": "k4jkkehihwozzd4ravd7uj6e"}
+
+Ansible will then use this information to report if the calls made changes or not.
+
+##Arguments
+Ansible passed arguments as the contents of a text file in the format: "action=createProject projectName=projectNameproject2"
+Calling init.getArgs will read the contents of the filename passed by Ansible when the script is invoked (process.argv[2]) and process into an array of key value pairs.
 
 ##Usage
 
