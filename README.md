@@ -45,7 +45,7 @@ ansiblefhc.init.getArgs(function(err, args){
 
 function finish(err, response ){
   if (err){
-    console.log({err:err})
+    console.log(err)
   } else {
     if (!response.changed){
       response.changed = false;
@@ -55,7 +55,7 @@ function finish(err, response ){
       console.log(stringOutput);
     }
     catch(err){
-      console.log({err: err});
+      console.log(err);
     }
   }
 

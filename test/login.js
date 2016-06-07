@@ -4,7 +4,7 @@ var fhc = {
 		var response = {};
 		var username = arguments._[0];
 		var password = arguments._[1];
-		if (username == 'testUser' && password == 'testPass') {
+		if ((username == 'testUser' && password == 'testPass') || username == 'oldUser') {
 			response = { 
 			csrf: 'b1a9dc5c430f3597f43bb4050a70632c',
   			domain: 'test',
@@ -46,14 +46,13 @@ describe('fh login calls', function () {
   		
   	});
   });
-  // This test is no longer valid, we are now always logging in the user to ensure the session is valid
-  // it('should not login to fh domain, user already logged in', function (done) {
-  // 	var login = proxyquire('../lib/login.js', {'../node_modules/fh-fhc': fhc});
-  // 	login.doLogin('oldUser', 'oldPass', function(response, changed){	
-		// response.username.should.equal('oldUser');
-		// changed.should.equal(false);
-		// done();
+  it('should login but return changed=false', function (done) {
+  	var login = proxyquire('../lib/login.js', {'fh-fhc': fhc});
+  	login.doLogin('oldUser', 'oldPass', function(err, response){	
+		
+		response.changed.should.equal(false);
+		done();
   		
-  // 	});
-  // });
+  	});
+  });
 });
