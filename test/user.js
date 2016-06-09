@@ -92,6 +92,7 @@ describe('fh user calls', function () {
   it('should create user', function (done) {
     var args = [];
     args['username'] = 'newUser@example.com';
+    args['email'] = 'newUser@example.com';
   	var user = proxyquire('../lib/user.js', {'fh-fhc': fhc});
   	user.create(args , function(err, response){
     response.guid.should.equal('testGuid');
@@ -102,6 +103,7 @@ describe('fh user calls', function () {
   it('should not create duplicate user', function (done) {
     var args = [];
     args['username'] = 'exist@example.com';
+    args['email'] = 'exist@example.com';
     var user = proxyquire('../lib/user.js', {'fh-fhc': fhc});
     user.create(args , function(err, response){
     response.guid.should.equal('ewtbmfr74wiwfdahpr3sa23i');

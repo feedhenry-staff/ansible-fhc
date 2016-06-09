@@ -62,7 +62,9 @@ var fhc = {
 describe('fh team calls', function () {
   it('should create team ', function (done) {
   	var args = {
-        mbaasName: 'projectName'
+        mbaasName: 'projectName',
+        type: 'developer',
+        projectGuid: 'projectGuid'
     }
 
   	var team = proxyquire('../lib/team.js', {'fh-fhc': fhc});
@@ -75,7 +77,9 @@ describe('fh team calls', function () {
   });
   it('should not create duplicate team ', function (done) {
   	var args = {
-        mbaasName: 'testTeam'
+        mbaasName: 'testTeam',
+        type: 'developer',
+        projectGuid: 'projectGuid'
     }
 
   	var team = proxyquire('../lib/team.js', {'fh-fhc': fhc});

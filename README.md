@@ -75,73 +75,76 @@ function finish(err, response ){
 
 ```
 
-Create file e.g. deployMBaaS.yml
+Create file e.g. roles/rhmap/tasks/main.yml
 
 ```
 
 ---
-- hosts: localhost
-  vars: 
-    project_name: phtest2
-    environments:
-      - { name: 'development' }
-      - { name: 'test' }
-      - { name: 'production' }
-    teams:
-      - { type: 'developer', name: 'developer' }
-      - { type: 'operations', name: 'operations'}
-      - { type: 'business', name: 'business'}
-  tasks:
-    - name: Set RH MAP Target
-      fhc:
-        action: target
-        target: RHMAPDOMAIN
-    - name: Login to RH MAP
-      fhc:
-        action: login
-        username: RHMAPUSER
-        password: RHMAPPASS
-    - name: Create MBaaS Target
-      fhc:
-        action: createMBaaSTarget
-        mbaasName: "{{ project_name }}"
-        fhMbaasHost: FHMBAASHOST
-        url: FHMBAASURL:8443
-        openshiftUsername: OCUSER
-        openshiftPassword: OCPASS
-        routerDNSUrl: PUBLICDNS
-        environment: "{{ item.name }}"
-      register: deployedmbaases
-      with_items: 
-        "{{ environments }}"
-    - debug: 
-        var: deployedmbaases
-    - name: Create Environment
-      fhc:
-        action: createEnvironment
-        mbaasName: "{{ project_name }}"
-        environment: "{{ item.name }}"
-      register: deployedenvironments
-      with_items: 
-        "{{ environments }}"
-    - name: Create Project
-      fhc:
-        action: createProject
-        projectName: "{{ project_name }}" 
-      register: project_details
-    - name: Create teams
-      fhc:
-        action: createTeam
-        mbaasName: "{{ project_name }}"
-        projectGuid: "{{ project_details.output.guid }}"
-        environments: "{{ deployedenvironments.results | map(attribute='output.id')|join(',') }}"
-        mbaases: "{{ deployedmbaases.results | map(attribute='output.id')|join(',') }}"
-    - name: Create User
-      fhc:
-        action: createUser
-        username: test@redhat.com
-        email: test@redhat.com 
-      register: user_details
+  - name: Set RH MAP Target
+    fhc:
+      action: target
+      target: "{{ rhmap.domain }}"
+  - name: Login to RH MAP
+    fhc:
+      action: login
+      username: "{{ rhmap.username }}"
+      password: "{{ rhmap.password }}"
+  - name: Create MBaaS Target
+    fhc:
+      action: createMBaaSTarget
+      mbaasName: "{{ project_name }}"
+      fhMbaasHost: https://"{{ project_name }}"-"{{ item.name }}"."{{ openshift.hostname }}"
+      url: https://"{{ openshift.hostname }}":"{{ openshift.port }}"
+      openshiftUsername: "{{ openshift.username }}"
+      openshiftPassword: "{{ openshift.password }}"
+      routerDNSUrl: "{{ openshift.wildcard_dns }}"
+      environment: "{{ item.name }}"
+    register: deployedmbaases
+    with_items: 
+      "{{ environments }}"
+  - debug: 
+      var: deployedmbaases
+  - name: Create Environment
+    fhc:
+      action: createEnvironment
+      mbaasName: "{{ project_name }}"
+      environment: "{{ item.name }}"
+    register: deployedenvironments
+    with_items: 
+      "{{ environments }}"
+  - name: Create RH MAP Project
+    fhc:
+      action: createProject
+      projectName: "{{ project_name }}" 
+    register: project_details
+  - debug: 
+      var: project_details
+  - name: Create teams
+    fhc:
+      action: createTeam
+      mbaasName: "{{ project_name }}"
+      type: "{{ item.type }}"
+      name: "{{ item.name }}"
+      projectGuid: "{{ project_details.response.guid }}"
+      environment_permissions: "{{ item.environments  | map(attribute='name')|join(',') }}"
+    with_items: 
+      "{{ teams }}"
+  - name: Create RHMAP Users
+    fhc:
+      action: createUser
+      username: "{{ item.username }}"
+      email: "{{ item.email }}" 
+    register: user_details
+    with_items: 
+      "{{ rhmap.users }}"
+  - name: Add RHMAP Users to Teams
+    fhc:
+      action: addUserToTeam
+      mbaasName: "{{ project_name }}"
+      username: "{{ item.username }}"
+      teamName: "{{ item.team }}" 
+    with_items: 
+      "{{ rhmap.users }}"
 
 ```
 
