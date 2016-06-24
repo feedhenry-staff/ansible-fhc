@@ -1,0 +1,21 @@
+verbose feedhenry url https://innovation.us.labs.redhatmobile.com/
+silly GET box/api/projects/2n4judn2w7hb3ep65na6gik6
+silly url, unparsed https://innovation.us.labs.redhatmobile.com/
+verbose resolveUrl - IN box/api/projects/2n4judn2w7hb3ep65na6gik6
+verbose resolveUrl - OUT https://innovation.us.labs.redhatmobile.com/box/api/projects/2n4judn2w7hb3ep65na6gik6
+verbose calling url https://innovation.us.labs.redhatmobile.com/box/api/projects/2n4judn2w7hb3ep65na6gik6 payload: null
+silly port 443
+silly cookie feedhenry=worhhod6zyjcsxywvkdutgen;
+silly nocache false
+silly explain level 0
+verbose getHeaders { accept: 'application/json',
+verbose getHeaders   cookie: 'feedhenry=worhhod6zyjcsxywvkdutgen;',
+verbose getHeaders   'User-Agent': 'FHC/1.1.5 darwin/15.5.0',
+verbose getHeaders   'content-length': 0 }
+silly headers { accept: 'application/json',
+silly headers   cookie: 'feedhenry=worhhod6zyjcsxywvkdutgen;',
+silly headers   'User-Agent': 'FHC/1.1.5 darwin/15.5.0',
+silly headers   'content-length': 0 }
+silly getProxy null
+ERR! Error - non 2xx status code: {"message":"project not found","status":"error","result":null}
+verbose exit [ 1, false ]
