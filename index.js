@@ -43,6 +43,9 @@ exports.process = function(action, args, finish){
   else if (action == 'getGitUrl'){
     project.getGitUrl(args, finish);
   }
+  else if (action == 'getAppGuid'){
+    project.getAppGuid(args, finish);
+  }
   else if (action == 'createUser'){
     user.create(args, finish);
   }

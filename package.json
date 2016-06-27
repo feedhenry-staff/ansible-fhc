@@ -1,6 +1,6 @@
 {
   "name": "ansible-fhc",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Ansible FHC Module",
   "main": "index.js",
   "scripts": {
