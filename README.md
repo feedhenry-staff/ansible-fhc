@@ -10,6 +10,8 @@ Module is limited to supporting a subset of FHC commands currently
 * admin.environments.create
 * admin.teams.create
 * project create
+* app get guid
+* app get git url
 * admin-users create
 
 When calls are made to FHC e.g. to create a user, a check is performed to determine if this is a change or not.  In the case of user creation the module first checks to see if the user exists.  If the user exists the following is returned:
@@ -145,6 +147,18 @@ Create file e.g. roles/rhmap/tasks/main.yml
       teamName: "{{ item.team }}" 
     with_items: 
       "{{ rhmap.users }}"
+  - name: Get cloud app git url
+    fhc:
+      action: getGitUrl
+      projectName:  "{{ project_name }}"
+      appType: cloud_nodejs
+    register: cloud_git_url
+  - name: Get cloud app guid
+    fhc:
+      action: getAppGuid
+      projectName:  "{{ project_name }}"
+      appType: cloud_nodejs
+    register: cloud_app_guid
 
 ```
 
