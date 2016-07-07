@@ -1,6 +1,6 @@
 {
   "name": "ansible-fhc",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Ansible FHC Module",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "Philip Hayes",
   "license": "MIT",
   "dependencies": {
-    "fh-fhc": "^1.1.5"
+    "fh-fhc": "^2.1.0"
   },
   "devDependencies": {
     "mocha": "^2.5.1",
