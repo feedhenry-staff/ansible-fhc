@@ -52,7 +52,7 @@ var fhc = {
 describe('fh MBaaS calls', function () {
   it('should create MBaaS target ', function (done) {
   	var args = {
-        mbaasName: 'projectName',
+        engagementName: 'projectName',
         fhMbaasHost: 'https://projectName.osm1-x.xxxx.net',
         url: 'https://osm1-x.xxxx.net:8443',
         openshiftUsername: 'user',
@@ -70,7 +70,7 @@ describe('fh MBaaS calls', function () {
   });
   it('should not create MBaaS duplicate target ', function (done) {
   	var args = {
-        mbaasName: 'test-duplicate',
+        engagementName: 'test-duplicate',
         fhMbaasHost: 'https://projectName.osm1-xx.xxxx.net',
         url: 'https://osm1-xx.xxxx.net:8443',
         openshiftUsername: 'user',

@@ -9,6 +9,7 @@ Module is limited to supporting a subset of FHC commands currently
 * admin.mbaas.create
 * admin.environments.create
 * admin.teams.create
+* admin.teams.update
 * project create
 * app get guid
 * app get git url
@@ -94,41 +95,35 @@ Create file e.g. roles/rhmap/tasks/main.yml
   - name: Create MBaaS Target
     fhc:
       action: createMBaaSTarget
-      mbaasName: "{{ project_name }}"
-      fhMbaasHost: https://"{{ project_name }}"-"{{ item.name }}"."{{ openshift.hostname }}"
+      engagementName: "{{ engagement_name }}"
+      fhMbaasHost: https://"{{ engagement_name }}"-"{{ item.name }}"."{{ openshift.hostname }}"
       url: https://"{{ openshift.hostname }}":"{{ openshift.port }}"
       openshiftUsername: "{{ openshift.username }}"
       openshiftPassword: "{{ openshift.password }}"
       routerDNSUrl: "{{ openshift.wildcard_dns }}"
       environment: "{{ item.name }}"
-    register: deployedmbaases
     with_items: 
       "{{ environments }}"
-  - debug: 
-      var: deployedmbaases
   - name: Create Environment
     fhc:
       action: createEnvironment
-      mbaasName: "{{ project_name }}"
+      engagementName: "{{ engagement_name }}"
       environment: "{{ item.name }}"
-    register: deployedenvironments
     with_items: 
       "{{ environments }}"
   - name: Create RH MAP Project
     fhc:
       action: createProject
-      projectName: "{{ project_name }}" 
+      projectName: "{{ item.name }}" 
     register: project_details
-  - debug: 
-      var: project_details
+    with_items: 
+      "{{ projects }}"
   - name: Create teams
     fhc:
       action: createTeam
-      mbaasName: "{{ project_name }}"
+      engagementName: "{{ engagement_name }}"
       type: "{{ item.type }}"
       name: "{{ item.name }}"
-      projectGuid: "{{ project_details.response.guid }}"
-      environment_permissions: "{{ item.environments  | map(attribute='name')|join(',') }}"
     with_items: 
       "{{ teams }}"
   - name: Create RHMAP Users
@@ -142,23 +137,46 @@ Create file e.g. roles/rhmap/tasks/main.yml
   - name: Add RHMAP Users to Teams
     fhc:
       action: addUserToTeam
-      mbaasName: "{{ project_name }}"
+      engagementName: "{{ engagement_name }}"
       username: "{{ item.username }}"
       teamName: "{{ item.team }}" 
     with_items: 
       "{{ rhmap.users }}"
-  - name: Get cloud app git url
+  - name: Add Projects to Teams
     fhc:
-      action: getGitUrl
-      projectName:  "{{ project_name }}"
-      appType: cloud_nodejs
-    register: cloud_git_url
-  - name: Get cloud app guid
+      action: updateTeam
+      updateType: project
+      engagementName: "{{ engagement_name }}"
+      newValue: "{{ item[0].name }}"
+      teamName: "{{ item[1].name }}" 
+    with_nested:
+      - "{{ projects }}"
+      - "{{ teams }}"
+  - name: Add MBaaS Targets to Teams
     fhc:
-      action: getAppGuid
-      projectName:  "{{ project_name }}"
-      appType: cloud_nodejs
-    register: cloud_app_guid
+      action: updateTeam
+      updateType: mbaas
+      engagementName: "{{ engagement_name }}"
+      newValue: "{{ item[0].name }}"
+      teamName: "{{ item[1].name }}" 
+      isLive: "{{ item[0].is_live }}"
+      teamType: "{{ item[1].type }}"
+    with_nested:
+      - "{{ environments }}"
+      - "{{ teams }}"
+  - name: Add Environments to Teams
+    fhc:
+      action: updateTeam
+      updateType: environment
+      engagementName: "{{ engagement_name }}"
+      newValue: "{{ item[0].name }}"
+      teamName: "{{ item[1].name }}" 
+      isLive: "{{ item[0].is_live }}"
+      teamType: "{{ item[1].type }}"
+    with_nested:
+      - "{{ environments }}"
+      - "{{ teams }}"
+
 
 ```
 

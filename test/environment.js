@@ -70,21 +70,21 @@ var fhc = {
 describe('fh Environment calls', function () {
   it('should create Environment ', function (done) {
   	var args = {
-        mbaasName: 'projectName',
+        engagementName: 'projectName',
         environment: 'test'
     }
 
   	var environment = proxyquire('../lib/environment.js', {'fh-fhc': fhc});
   	environment.create(args, function(err, response){
   		
-		response.id.should.equal(args.mbaasName);
+		response.id.should.equal(args.engagementName);
 		response.changed.should.equal(true);
 		done();
   	});
   });
   it('should not create duplicate environment ', function (done) {
   	var args = {
-        mbaasName: 'test-duplicate',
+        engagementName: 'test-duplicate',
         environment: 'test'
     }
 

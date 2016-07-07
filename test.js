@@ -95,6 +95,9 @@ function processAction(action, args, finish){
   else if (action == 'addUserToTeam'){
     team.addUser(args, finish);
   }
+  else if (action == 'updateTeam'){
+    team.update(args, finish);
+  }
   else {
     finish({err: 'unknown action'}, false);
   }

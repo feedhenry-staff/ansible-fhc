@@ -1,5 +1,0 @@
-ERR! [Error: Missing required arguments: app, env]
-ERR! 
-ERR! System Darwin 15.5.0
-ERR! command "/usr/local/bin/node" "/usr/local/bin/fhc" "app" "stage"
-verbose exit [ 1, false ]
