@@ -11,7 +11,7 @@ Module is limited to supporting a subset of FHC commands currently
 * admin.teams.create
 * admin.teams.update
 * project create
-* app get guid
+* app get details
 * app get git url
 * admin-users create
 

@@ -40,8 +40,8 @@ exports.process = function(action, args, finish){
   else if (action == 'createProject'){
     project.create(args, finish);
   }
-  else if (action == 'getGitUrl'){
-    project.getGitUrl(args, finish);
+  else if (action == 'getAppDetails'){
+    project.getAppDetails(args, finish);
   }
   else if (action == 'getAppGuid'){
     project.getAppGuid(args, finish);
@@ -54,6 +54,9 @@ exports.process = function(action, args, finish){
   }
   else if (action == 'updateTeam'){
     team.update(args, finish);
+  }
+  else if (action == 'createServiceKey'){
+    mbaas.createKey(args, finish);
   }
   else {
   	finish({err: 'unknown action'}, false);
